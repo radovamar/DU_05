@@ -1,4 +1,76 @@
-#from DU5_def_zobrazeni import
+from turtle import setpos, speed, right, left, forward, penup, pendown, dot, exitonclick
+from math import sin, cos, tan, radians
+
+# funkce pro vypocty souradnic zvoleneho bodu a vytvoreni zemepisnych siti pro vybrana zobrazeni
+# funkce pro vypocet bodu v Lambertove azimutálním zobrazení
+
+
+# funkce pro vykresleni zemepisne site v Lambertove azimutálním zobrazení
+
+
+# funkce pro vypocet bodu v Braunově válcovém tečném zobrazení
+
+
+# funkce pro vypocet bodu v Ptolemaiově kuželovém zobrazení
+# vypocet sirky
+def Pt_s(s, R):
+    y = R*(1/tan(radians(30))) + R*(radians(30-s))
+    return y
+
+# vypocet delky
+def Pt_d(d):
+    x = radians(d)*sin(radians(30))
+    return x
+
+# vypocet bodu
+def Pt_bod(d, s, R):
+    delka = radians(30) - Pt_s(s, R)*cos(Pt_d(d))
+    sirka = Pt_s(s, R)*sin(Pt_d(d))
+    return delka, sirka
+
+# funkce pro vykresleni zemepisne site v Ptolemaiově kuželovém zobrazení
+def Pt(poledniky, rovnobezky, R):
+    zs = range(-90, 91, rovnobezky)
+    zd = range(-180, 181, poledniky)
+    speed(0)
+    for j in zs:
+        penup()
+        setpos(radians(30) - Pt_s(j, R)*cos(Pt_d(-180)), Pt_s(j, R)*sin(Pt_d(-180)))
+        pendown()
+        for i in zd:
+            setpos(radians(30) - Pt_s(j, R)*cos(Pt_d(i)), Pt_s(j, R)*sin(Pt_d(i)))
+    for j in zd:
+        penup()
+        setpos(radians(30) - Pt_s(-90, R)*cos(Pt_d(j)), Pt_s(-90, R)*sin(Pt_d(j)))
+        pendown()
+        for i in zs:
+            setpos(radians(30) - Pt_s(i, R)*cos(Pt_d(j)), Pt_s(i, R)*sin(Pt_d(j)))
+
+# funkce pro vypocet bodu v Sansonově nepravém zobrazení
+def Sa_bod(d, s, R):
+    delka = R*radians(d)*cos(radians(s))
+    sirka = R*radians(s)
+    return delka, sirka
+
+# funkce pro vykresleni zemepisne site v Sansonově nepravém zobrazení
+def Sa(poledniky, rovnobezky, R):
+    zs = range(-90, 91, rovnobezky)
+    zd = range(-180, 181, poledniky)
+    speed(0)
+    for j in zs:
+        penup()
+        setpos(R*radians(-180)*cos(radians(j)), R*radians(j))
+        pendown()
+        for i in zd:
+            setpos(R*radians(i)*cos(radians(j)), R*radians(j))
+    for j in zd:
+        penup()
+        setpos(R*radians(j)*cos(radians(-90)), R*radians(-90))
+        pendown()
+        for i in zs:
+            setpos(R*radians(j)*cos(radians(i)), R*radians(i))
+
+# cast pro zadavani parametru uzivatelem
 
 # uzivatel vybira zobrazeni
 print("""Vyberte si z následujících zobrazení a napiště příslušnou zkratku!
@@ -76,16 +148,27 @@ while True:
     break
 
 # vypocet bodu a vykresleni site dle zadani uzivatele
+poledniky = 10
+rovnobezky = 10
+
+#if zobrazeni == "La":
+
+#elif zobrazeni == "Br":
+
+
+if zobrazeni == "Pt":
+    Pt(poledniky, rovnobezky, R)
+    delka, sirka = Pt_bod(d, s, R)
+
+if zobrazeni == "Sa":
+    Sa(poledniky, rovnobezky, R)
+    delka, sirka = Sa_bod(d, s, R)
+
+print("Zvolený bod má souřadnice x: ",delka, "a y: ",sirka)
+exitonclick()
 
 
 
 
 
-
-
-
-
-
-         
-        #SOUŘADNICE BODŮ - ZEMĚPISNÁ DÉLKA A ŠÍŘKA
-      
+ 
