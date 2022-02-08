@@ -1,26 +1,78 @@
-from turtle import setpos, speed, right, left, forward, penup, pendown, dot, exitonclick
+from turtle import setpos, speed, penup, pendown, exitonclick, screensize
 from math import sin, cos, tan, radians
 
 # funkce pro vypocty souradnic zvoleneho bodu a vytvoreni zemepisnych siti pro vybrana zobrazeni
-# funkce pro vypocet bodu v Lambertove azimutálním zobrazení
+# funkce pro vypocet bodu v Postelove azimutálním zobrazení
+# vypocet sirky
+def Po_s(s, R):
+    x = R*radians(90-s)
+    return x
 
+# vypocet delky
+def Po_d(d):
+    y = radians(d)
+    return y
 
-# funkce pro vykresleni zemepisne site v Lambertove azimutálním zobrazení
+# vypocet bodu
+def Po_bod(d, s, R):
+    delka = Po_s(s, R)*cos(Po_d(d))
+    sirka = Po_s(s, R)*sin(Po_d(d))
+    return delka, sirka
 
+# funkce pro vykresleni zemepisne site v Postelove azimutálním zobrazení
+def Po(poledniky, rovnobezky, R):
+    zs = range(-90,91, rovnobezky)
+    zd = range(-180, 181, poledniky)
+    speed(0)
+    screensize(canvwidth=1200, canvheight=891)
+    for j in zs:
+        penup()
+        setpos(Po_s(j,R)*cos(Po_d(-180)), Po_s(j,R)*sin(Po_d(-180)))
+        pendown()
+        for i in zd:
+            setpos(Po_s(j,R)*cos(Po_d(i)), Po_s(j,R)*sin(Po_d(i)))
+    for j in zd:
+        penup()
+        setpos(Po_s(-90,R)*cos(Po_d(j)), Po_s(-90,R)*sin(Po_d(j)))
+        pendown()
+        for i in zs:
+            setpos(Po_s(i,R)*cos(Po_d(j)), Po_s(i,R)*sin(Po_d(j)))
 
 # funkce pro vypocet bodu v Braunově válcovém tečném zobrazení
+def Br_bod(d, s, R):
+    delka = R*(radians(d))
+    sirka = 2*R*tan(radians(s)/2)
+    return delka, sirka
 
+# funkce pro vykresleni zemepisne site v Braunově válcovém tečném zobrazení
+def Br(poledniky, rovnobezky, R):
+    zs = range(-90, 91, rovnobezky)
+    zd = range(-180, 181, poledniky)
+    speed(0)
+    screensize(canvwidth=1200, canvheight=891)
+    for j in zs:
+        penup()
+        setpos(R*radians(-180), 2*R*tan(radians(j)/2))
+        pendown()
+        for i in zd:
+            setpos(R*radians(i), 2*R*tan(radians(j)/2))
+    for j in zd:
+        penup()
+        setpos(R*radians(j), 2*R*tan(radians(-90)/2))
+        pendown()
+        for i in zs:
+            setpos(R*radians(j), 2*R*tan(radians(i)/2))
 
 # funkce pro vypocet bodu v Ptolemaiově kuželovém zobrazení
 # vypocet sirky
 def Pt_s(s, R):
-    y = R*(1/tan(radians(30))) + R*(radians(30-s))
-    return y
+    x = R*(1/tan(radians(30))) + R*(radians(30-s))
+    return x
 
 # vypocet delky
 def Pt_d(d):
-    x = radians(d)*sin(radians(30))
-    return x
+    y = radians(d)*sin(radians(30))
+    return y
 
 # vypocet bodu
 def Pt_bod(d, s, R):
@@ -33,6 +85,7 @@ def Pt(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
     speed(0)
+    screensize(canvwidth=1200, canvheight=891)
     for j in zs:
         penup()
         setpos(radians(30) - Pt_s(j, R)*cos(Pt_d(-180)), Pt_s(j, R)*sin(Pt_d(-180)))
@@ -57,6 +110,7 @@ def Sa(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
     speed(0)
+    screensize(canvwidth=1200, canvheight=891)
     for j in zs:
         penup()
         setpos(R*radians(-180)*cos(radians(j)), R*radians(j))
@@ -74,7 +128,7 @@ def Sa(poledniky, rovnobezky, R):
 
 # uzivatel vybira zobrazeni
 print("""Vyberte si z následujících zobrazení a napiště příslušnou zkratku!
-La = Lambertovo azimutální
+Po = Postelovo azimutální
 Br = Braunovo válcové tečné
 Pt = Ptolemaiovo kuželové
 Sa = Sansonovo nepravé""")
@@ -82,7 +136,7 @@ Sa = Sansonovo nepravé""")
 while True:
     try:
         zobrazeni = str(input("Zadejte zkratku: "))
-        if zobrazeni not in ["La", "Br", "Pt", "Sa"]:
+        if zobrazeni not in ["Po", "Br", "Pt", "Sa"]:
             print("Špatně zadané zobrazení. Zkuste to znovu")
             continue
         # pri korektnim vstupu vyskoci z cyklu
@@ -151,24 +205,20 @@ while True:
 poledniky = 10
 rovnobezky = 10
 
-#if zobrazeni == "La":
-
-#elif zobrazeni == "Br":
-
-
-if zobrazeni == "Pt":
+if zobrazeni == "Po":
+    Po(poledniky, rovnobezky, R)
+    delka, sirka = Po_bod(d, s, R)
+elif zobrazeni == "Br":
+    Br(poledniky, rovnobezky, R)
+    delka, sirka = Br_bod(d, s, R)
+elif zobrazeni == "Pt":
     Pt(poledniky, rovnobezky, R)
     delka, sirka = Pt_bod(d, s, R)
-
-if zobrazeni == "Sa":
+else:
+    zobrazeni == "Sa"
     Sa(poledniky, rovnobezky, R)
     delka, sirka = Sa_bod(d, s, R)
 
-print("Zvolený bod má souřadnice x: ",delka, "a y: ",sirka)
 exitonclick()
 
-
-
-
-
- 
+print("Zvolený bod má souřadnice x: ",delka, "a y: ",sirka)
