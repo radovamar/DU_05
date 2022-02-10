@@ -151,7 +151,7 @@ Zadává se jako celé číslo x, které bude odpovídat 1:x """)
 while True:
     # osetri nekorektni vstupy
     try:
-        meritko = float(input("Zadejte měřítko: "))
+        meritko = int(input("Zadejte měřítko: "))
         if meritko <= 0:
             print("Špatně zadané číslo. Zkuste to znovu.")
             continue
@@ -168,7 +168,7 @@ Pokud zadáte 0, bude počítáno s poloměrem 6371,11 km.""")
 # osetreni spravneho vstupu a prevedeni polomeru na cm
 while True:
     try:
-        polomer = float(input("Zadejte poloměr: "))
+        polomer = int(input("Zadejte poloměr: "))
         if polomer < 0:
             print("Příliš malé číslo. Zkuste to znovu.")
             continue
