@@ -2,6 +2,7 @@
 repozitar pro ukol 5
 
 Co program dělá?
+
 Tento program umožňuje uživateli z nabídky zvolit zobrazení, zadat měřítko a poloměr pro vykreslení sítě a vypsání souřadnic zadaného bodu. K výběru je vždy jedno zobrazení z azimutálního, válcového tečného, kuželového a nepravého. Nakonec je síť vykreslena pomocí želví grafiky.
 
 Vstupní parametry
