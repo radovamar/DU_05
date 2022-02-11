@@ -1,8 +1,9 @@
-from turtle import setpos, speed, penup, pendown, exitonclick, screensize
+from turtle import setpos, speed, penup, pendown, exitonclick, screensize, dot
 from math import sin, cos, tan, radians
 
-# funkce pro vypocty souradnic zvoleneho bodu a vytvoreni zemepisnych siti pro vybrana zobrazeni
-# funkce pro vypocet bodu v Postelove azimutálním zobrazení
+# funkce pro vypocty novych souradnic zvoleneho bodu a vytvoreni zemepisnych siti pro vybrana zobrazeni
+
+# funkce pro vypocet v Postelove azimutálním zobrazení
 # vypocet sirky
 def Po_s(s, R):
     x = R*radians(90-s)
@@ -13,53 +14,64 @@ def Po_d(d):
     y = radians(d)
     return y
 
-# vypocet bodu
-def Po_bod(d, s, R): # dat do setpos
+# vypocet novych souradnic
+def Po_bod(d, s, R):
     delka = Po_s(s, R)*cos(Po_d(d))
     sirka = Po_s(s, R)*sin(Po_d(d))
     return delka, sirka
 
-# funkce pro vykresleni zemepisne site v Postelove azimutálním zobrazení
+# vypocet a vykresleni bodu
+def vykresli_Po_bod(d, s, R):
+    bod = Po_bod(d, s, R)
+    setpos(bod[0], bod[1])
+
+# vykresleni zemepisne site
 def Po(poledniky, rovnobezky, R):
     zs = range(-90,91, rovnobezky)
     zd = range(-180, 181, poledniky)
     for j in zs:
         penup()
-        setpos(Po_s(j,R)*cos(Po_d(-180)), Po_s(j,R)*sin(Po_d(-180)))
+        vykresli_Po_bod(j, -180, R)
         pendown()
         for i in zd:
-            setpos(Po_s(j,R)*cos(Po_d(i)), Po_s(j,R)*sin(Po_d(i)))
+            vykresli_Po_bod(j, i, R)
     for j in zd:
         penup()
-        setpos(Po_s(-90,R)*cos(Po_d(j)), Po_s(-90,R)*sin(Po_d(j)))
+        vykresli_Po_bod(-90, j, R)
         pendown()
         for i in zs:
-            setpos(Po_s(i,R)*cos(Po_d(j)), Po_s(i,R)*sin(Po_d(j)))
+            vykresli_Po_bod(i, j, R)
 
-# funkce pro vypocet bodu v Braunově válcovém tečném zobrazení
+# funkce pro vypocet v Braunově válcovém tečném zobrazení
+# vypocet novych souradnic
 def Br_bod(d, s, R):
     delka = R*(radians(d))
     sirka = 2*R*tan(radians(s)/2)
     return delka, sirka
 
-# funkce pro vykresleni zemepisne site v Braunově válcovém tečném zobrazení
+# vypocet a vykresleni bodu
+def vykresli_Br_bod(d, s, R):
+    bod = Br_bod(d, s, R)
+    setpos(bod[0], bod[1])
+
+# vykresleni zemepisne site
 def Br(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
     for j in zs:
         penup()
-        setpos(R*radians(-180), 2*R*tan(radians(j)/2))
+        vykresli_Br_bod(-180, j, R)
         pendown()
         for i in zd:
-            setpos(R*radians(i), 2*R*tan(radians(j)/2))
+            vykresli_Br_bod(i, j, R)
     for j in zd:
         penup()
-        setpos(R*radians(j), 2*R*tan(radians(-90)/2))
+        vykresli_Br_bod(j, -90, R)
         pendown()
         for i in zs:
-            setpos(R*radians(j), 2*R*tan(radians(i)/2))
+            vykresli_Br_bod(j, i, R)
 
-# funkce pro vypocet bodu v Ptolemaiově kuželovém zobrazení
+# funkce pro vypocet v Ptolemaiově kuželovém zobrazení
 # vypocet sirky
 def Pt_s(s, R):
     x = R*(1/tan(radians(30))) + R*(radians(30-s))
@@ -70,51 +82,61 @@ def Pt_d(d):
     y = radians(d)*sin(radians(30))
     return y
 
-# vypocet bodu
+# vypocet novych souradnic
 def Pt_bod(d, s, R):
     delka = radians(30) - Pt_s(s, R)*cos(Pt_d(d))
     sirka = Pt_s(s, R)*sin(Pt_d(d))
     return delka, sirka
 
-# funkce pro vykresleni zemepisne site v Ptolemaiově kuželovém zobrazení
+def vykresli_Pt_bod(d, s, R):
+    bod = Pt_bod(d, s, R)
+    setpos(bod[0], bod[1])
+
+# vykresleni zemepisne site
 def Pt(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
     for j in zs:
         penup()
-        setpos(radians(30) - Pt_s(j, R)*cos(Pt_d(-180)), Pt_s(j, R)*sin(Pt_d(-180)))
+        vykresli_Pt_bod(j, -180, R)
         pendown()
         for i in zd:
-            setpos(radians(30) - Pt_s(j, R)*cos(Pt_d(i)), Pt_s(j, R)*sin(Pt_d(i)))
+            vykresli_Pt_bod(j, i, R)
     for j in zd:
         penup()
-        setpos(radians(30) - Pt_s(-90, R)*cos(Pt_d(j)), Pt_s(-90, R)*sin(Pt_d(j)))
+        vykresli_Pt_bod(-90, j, R)
         pendown()
         for i in zs:
-            setpos(radians(30) - Pt_s(i, R)*cos(Pt_d(j)), Pt_s(i, R)*sin(Pt_d(j)))
+            vykresli_Pt_bod(i, j, R)
 
-# funkce pro vypocet bodu v Sansonově nepravém zobrazení
+# funkce pro vypocet v Sansonově nepravém zobrazení
+# vypocet novych souradnic 
 def Sa_bod(d, s, R):
     delka = R*radians(d)*cos(radians(s))
     sirka = R*radians(s)
     return delka, sirka
 
-# funkce pro vykresleni zemepisne site v Sansonově nepravém zobrazení
+# vypocet a vykresleni bodu
+def vykresli_Sa_bod(d, s, R):
+    bod = Sa_bod(d, s, R)
+    setpos(bod[0], bod[1])
+        
+# vykresleni zemepisne site
 def Sa(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
     for j in zs:
         penup()
-        setpos(R*radians(-180)*cos(radians(j)), R*radians(j))
+        vykresli_Sa_bod(-180, j, R)
         pendown()
         for i in zd:
-            setpos(R*radians(i)*cos(radians(j)), R*radians(j))
+            vykresli_Sa_bod(i, j, R)
     for j in zd:
         penup()
-        setpos(R*radians(j)*cos(radians(-90)), R*radians(-90))
+        vykresli_Sa_bod(j, -90, R)
         pendown()
         for i in zs:
-            setpos(R*radians(j)*cos(radians(i)), R*radians(i))
+            vykresli_Sa_bod(j, i, R)
 
 # cast pro zadavani parametru uzivatelem
 
@@ -209,11 +231,10 @@ elif zobrazeni == "Br":
 elif zobrazeni == "Pt":
     Pt(poledniky, rovnobezky, R)
     delka, sirka = Pt_bod(d, s, R)
-else:
-    zobrazeni == "Sa"
+elif zobrazeni == "Sa":
     Sa(poledniky, rovnobezky, R)
     delka, sirka = Sa_bod(d, s, R)
 
 exitonclick()
 
-print("Zvolený bod má souřadnice x: ",delka, "a y: ",sirka)
+print("Zvolený bod má souřadnice x: ", round(delka, 3), "a y: ", round(sirka, 3))
