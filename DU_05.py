@@ -14,7 +14,7 @@ def Po_d(d):
     return y
 
 # vypocet bodu
-def Po_bod(d, s, R):
+def Po_bod(d, s, R): # dat do setpos
     delka = Po_s(s, R)*cos(Po_d(d))
     sirka = Po_s(s, R)*sin(Po_d(d))
     return delka, sirka
@@ -23,8 +23,6 @@ def Po_bod(d, s, R):
 def Po(poledniky, rovnobezky, R):
     zs = range(-90,91, rovnobezky)
     zd = range(-180, 181, poledniky)
-    speed(0)
-    screensize(canvwidth=1200, canvheight=891)
     for j in zs:
         penup()
         setpos(Po_s(j,R)*cos(Po_d(-180)), Po_s(j,R)*sin(Po_d(-180)))
@@ -48,8 +46,6 @@ def Br_bod(d, s, R):
 def Br(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
-    speed(0)
-    screensize(canvwidth=1200, canvheight=891)
     for j in zs:
         penup()
         setpos(R*radians(-180), 2*R*tan(radians(j)/2))
@@ -84,8 +80,6 @@ def Pt_bod(d, s, R):
 def Pt(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
-    speed(0)
-    screensize(canvwidth=1200, canvheight=891)
     for j in zs:
         penup()
         setpos(radians(30) - Pt_s(j, R)*cos(Pt_d(-180)), Pt_s(j, R)*sin(Pt_d(-180)))
@@ -109,8 +103,6 @@ def Sa_bod(d, s, R):
 def Sa(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
-    speed(0)
-    screensize(canvwidth=1200, canvheight=891)
     for j in zs:
         penup()
         setpos(R*radians(-180)*cos(radians(j)), R*radians(j))
@@ -181,8 +173,8 @@ while True:
         print("Chybný vstup! Zadej znovu!")
         continue
     break
-# vypocet daneho polomeru dle meritka a velikosti pixelu
-R = R/meritko/0.03
+# vypocet daneho polomeru dle meritka
+R = R/meritko
 #print(R)
 
 # uzivatel zadava zemepisnou sirku a delku bodu
@@ -204,6 +196,9 @@ while True:
 # vypocet bodu a vykresleni site dle zadani uzivatele
 poledniky = 10
 rovnobezky = 10
+
+speed(0)
+screensize(canvwidth = 1200, canvheight = 891)
 
 if zobrazeni == "Po":
     Po(poledniky, rovnobezky, R)
