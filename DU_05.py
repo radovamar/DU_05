@@ -88,10 +88,11 @@ def Pt_bod(d, s, R):
     sirka = Pt_s(s, R)*sin(Pt_d(d))
     return delka, sirka
 
+# vypocet a vykresleni bodu
 def vykresli_Pt_bod(d, s, R):
     bod = Pt_bod(d, s, R)
     setpos(bod[0], bod[1])
-
+    
 # vykresleni zemepisne site
 def Pt(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
@@ -195,8 +196,8 @@ while True:
         print("Chybný vstup! Zadej znovu!")
         continue
     break
-# vypocet daneho polomeru dle meritka
-R = R/meritko
+# vypocet daneho polomeru dle meritka a velikosti pixelu
+R = R/meritko/0.03
 #print(R)
 
 # uzivatel zadava zemepisnou sirku a delku bodu
