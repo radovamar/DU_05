@@ -15,9 +15,9 @@ def Po_d(d):
     return y
 
 # vypocet novych souradnic
-def Po_bod(d, s, R):
-    delka = Po_s(s, R)*cos(Po_d(d))
-    sirka = Po_s(s, R)*sin(Po_d(d))
+def Po_bod(y, x, R):
+    delka = Po_s(x, R)*cos(Po_d(y))
+    sirka = Po_s(x, R)*sin(Po_d(y))
     return delka, sirka
 
 # vypocet a vykresleni bodu
@@ -83,31 +83,31 @@ def Pt_d(d):
     return y
 
 # vypocet novych souradnic
-def Pt_bod(d, s, R):
-    delka = radians(30) - Pt_s(s, R)*cos(Pt_d(d))
-    sirka = Pt_s(s, R)*sin(Pt_d(d))
+def Pt_bod(y, x, R):
+    delka = radians(30) - Pt_s(x, R)*cos(Pt_d(y))
+    sirka = Pt_s(x, R)*sin(Pt_d(y))
     return delka, sirka
 
 # vypocet a vykresleni bodu
-def vykresli_Pt_bod(d, s, R):
-    bod = Pt_bod(d, s, R)
+def vykresli_Pt_bod(y, x, R):
+    bod = Pt_bod(y, x, R)
     setpos(bod[0], bod[1])
     
 # vykresleni zemepisne site
 def Pt(poledniky, rovnobezky, R):
     zs = range(-90, 91, rovnobezky)
     zd = range(-180, 181, poledniky)
-    for j in zs:
-        penup()
-        vykresli_Pt_bod(j, -180, R)
-        pendown()
-        for i in zd:
-            vykresli_Pt_bod(j, i, R)
     for j in zd:
+        penup()
+        vykresli_Pt_bod(-180, j, R)
+        pendown()
+        for i in zs:
+            vykresli_Pt_bod(i, j, R)
+    for j in zs:
         penup()
         vykresli_Pt_bod(-90, j, R)
         pendown()
-        for i in zs:
+        for i in zd:
             vykresli_Pt_bod(i, j, R)
 
 # funkce pro vypocet v Sansonově nepravém zobrazení
