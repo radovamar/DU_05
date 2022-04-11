@@ -74,7 +74,7 @@ def Br(poledniky, rovnobezky, R):
 # funkce pro vypocet v Ptolemaiově kuželovém zobrazení
 # vypocet sirky
 def Pt_s(s, R):
-    polomer = R*(1/tan(radians(30))) - R*(radians(30-s))
+    polomer = R*(1/tan(radians(30))) + R*(radians(30-s))
     return polomer
 
 # vypocet delky
@@ -84,13 +84,13 @@ def Pt_d(d):
 
 # vypocet kartezskych souradnic
 def Pt_bod(polomer, uhel, R):
-    x = Pt_s(polomer, R)*cos(Pt_d(uhel))
+    x = radians(30) - Pt_s(polomer, R)*cos(Pt_d(uhel))
     y = Pt_s(polomer, R)*sin(Pt_d(uhel))
     return x, y
 
 # vypocet a vykresleni bodu
-def vykresli_Pt_bod(d, s, R):
-    bod = Pt_bod(d, s, R)
+def vykresli_Pt_bod(x, y, R):
+    bod = Pt_bod(x, y, R)
     setpos(bod[0], bod[1])
     
 # vykresleni zemepisne site
